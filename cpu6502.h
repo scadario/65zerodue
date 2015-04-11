@@ -13,5 +13,7 @@ public:
 
     uint8_t accumulator;
     uint16_t pc;
+    uint8_t x;
+    uint8_t status;
     int cycles;
 };

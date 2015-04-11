@@ -17,8 +17,31 @@ cpu6502::~cpu6502() {
 
 int cpu6502::step(int nsteps) {
     for(int i=0; i<nsteps; i++) {
-        if (memory[pc] == 0xA9) {
+        if (memory[pc] == 0x00) {
+            // BRK
+            pc += 1;
+            cycles += 7;
+        }
+        else if (memory[pc] == 0xA9) {
             accumulator = memory[pc+1];
+            pc += 2;
+            cycles += 2;
+        }
+        else if (memory[pc] == 0xaa) {
+            // TAX       ;Transfer the value in the A register to X
+            x = accumulator;
+            pc += 1;
+            cycles += 2;
+        }
+        else if (memory[pc] == 0xe8) {
+            // INX       ;Increment the value in the X register)
+            x++;
+            pc += 1;
+            cycles += 2;
+        }
+        else if (memory[pc] == 0x69) {
+            // ADC Add Memory to A with Carry
+            accumulator += memory[pc+1];
             pc += 2;
             cycles += 2;
         }
